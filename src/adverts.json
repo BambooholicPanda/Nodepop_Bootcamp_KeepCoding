@@ -1,0 +1,60 @@
+{
+  "adverts": [
+    {
+      "item": "remote control costume",
+      "selling": "true",
+      "price": 30.5,
+      "photo": "remcontrol.jpg",
+      "tags": ["party", "clothes"]
+    },
+    {
+      "item": "car of Pikachu",
+      "selling": "true",
+      "price": 15000,
+      "photo": "pikacar.jpg",
+      "tags": ["geek", "motor"]
+    },
+    {
+      "item": "car orange cat",
+      "selling": "false",
+      "price": 27000,
+      "photo": "meowcar.jpg",
+      "tags": ["geek", "motor"]
+    },
+    {
+      "item": "pencil",
+      "selling": "true",
+      "price": 1,
+      "photo": "pencil.jpg",
+      "tags": ["school", "stationery"]
+    },
+    {
+      "item": "bootcamp at KeepCoding",
+      "selling": "true",
+      "price": 5000,
+      "photo": "kcboot.jpg",
+      "tags": ["school", "online", "KeepCoding"]
+    },
+    {
+      "item": "person named Andrea",
+      "selling": "false",
+      "price": 99999999999999,
+      "photo": "justjoking.jpg",
+      "tags": ["programmer", "KeepCoding", "alumni"]
+    },
+    {
+      "item": "patience",
+      "selling": "false",
+      "price": 99999,
+      "photo": "verymuchneeded.jpg",
+      "tags": ["lifestyle", "mindfulness", "health"]
+    },
+    {
+      "item": "lettuce spinner",
+      "selling": "true",
+      "price": 5,
+      "photo": "lettucespinner.jpg",
+      "tags": ["lifestyle", "house"]
+    }
+  ]
+}

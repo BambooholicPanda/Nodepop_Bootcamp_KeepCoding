@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %> API</title>
+    <style>
+      .vscode-dark img[src$="\#gh-light-mode-only"],
+      .vscode-light img[src$="\#gh-dark-mode-only"] {
+        display: none;
+      }
+
+      .alert {
+        width: auto;
+        padding: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+      .alert > *:last-child {
+        margin-bottom: 0;
+      }
+      #preview > .alert:last-child {
+        padding-bottom: 1em;
+      }
+
+      .alert-success {
+        background-color: var(--theme-info-background);
+        color: var(--theme-info-foreground);
+      }
+      .alert-info {
+        background-color: var(--theme-info-background);
+        color: var(--theme-info-foreground);
+      }
+      .alert-warning {
+        background-color: var(--theme-warning-background);
+        color: var(--theme-warning-foreground);
+      }
+      .alert-danger {
+        background-color: var(--theme-error-background);
+        color: var(--theme-error-foreground);
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css"
+    />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI",
+          system-ui, "Ubuntu", "Droid Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    </style>
+    <style>
+      .task-list-item {
+        list-style-type: none;
+      }
+
+      .task-list-item-checkbox {
+        margin-left: -20px;
+        vertical-align: middle;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="vscode-body vscode-light">
+    <h1 id="nodepop-api">Nodepop API</h1>
+    <p>
+      This API, named Nodepop, is the final project for the backend with Node.js
+      course at my program in bootcamp by KeepCoding and Glovo. We have been
+      requested to create an API using Express and mongodb that allows the
+      creation, edition, deletion and filtering of pieces of advertisements that
+      follow a specific information schema (item name, photo, price, tags, and
+      whether the item is available for purchase or for selling). It also allows
+      to store the information in a mongodb database. If you like it, feel free
+      to fork it and give it a try.
+    </p>
+    <h2 id="install-mongodb">Install mongodb</h2>
+    <p>
+      Having mongodb installed in your server is necessary for the API to work.
+      Just download it, install it and make sure it's running in your system.
+      <a href="https://www.mongodb.com/try/download/community"
+        >https://www.mongodb.com/try/download/community</a
+      >
+    </p>
+    <p>
+      The database will run at <code>mongodb://127.0.0.1/nodepop</code> by
+      default. You can change this in <code>lib/connectMongoose.js</code> at
+      line 14.
+    </p>
+    <h2 id="deploy">Deploy</h2>
+    <pre><code>npm install
+</code></pre>
+    <h2 id="load-initial-data-to-database">Load initial data to database</h2>
+    <p>
+      The database will be overwritten with the data in
+      <code>adverts.json</code>.
+    </p>
+    <pre><code>npm run init-db
+</code></pre>
+    <h2 id="start-the-application-in-production">
+      Start the application in production
+    </h2>
+    <pre><code>npm start
+</code></pre>
+    <h2 id="start-the-application-for-development">
+      Start the application for development
+    </h2>
+    <pre><code>npm run dev
+</code></pre>
+    <p>
+      The API will run at <code>http://localhost:3000</code> by default. You can
+      change the port in <code>/bin/www.js</code> at line 15.
+    </p>
+    <h3
+      id="make-sure-to-be-at-the-nodepop-folder-directory-when-executing-these-commands"
+    >
+      Make sure to be at the <b>src folder</b> directory when executing these
+      commands.
+    </h3>
+    <h1 id="usage-all-available-requests">Usage (All available requests)</h1>
+    <h2 id="get-advert-list">Get advert list</h2>
+    <h3 id="request">Request</h3>
+    <p><code>GET /api/adverts</code></p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 200 OK
+
+&quot;results&quot;: [
+  {
+     &quot;_id&quot;: &quot;63b6e68fcbe10e8932a573d6&quot;,
+     &quot;item&quot;: &quot;bike1&quot;,
+     &quot;selling&quot;: true,
+     &quot;price&quot;: 230.13,
+     &quot;photo&quot;: &quot;bike.jpg&quot;,
+     &quot;tags&quot;: [
+        &quot;lifestyle&quot;,
+        &quot;motor&quot;
+     ]
+  },
+  {
+     &quot;_id&quot;: &quot;63b6e68fcbe10e8932a573d7&quot;,
+     &quot;item&quot;: &quot;phone2&quot;,
+     &quot;selling&quot;: false,
+     &quot;price&quot;: 220.13,
+     &quot;photo&quot;: &quot;phone2.jpg&quot;,
+     &quot;tags&quot;: [
+        &quot;work&quot;,
+        &quot;motor&quot;
+     ]
+  }
+  ...
+ ]
+</code></pre>
+    <h3 id="available-parameters">Available parameters</h3>
+    <details>
+      <summary>Click to open</summary>
+      <ul>
+        <li>
+          tag
+          <ul>
+            <li>
+              description: Searches by tag. You can get a list of all available
+              tags by using <code>GET api/tags</code>.
+            </li>
+            <li>value type: string</li>
+            <li>example: <code>GET api/adverts?tag=work</code></li>
+          </ul>
+        </li>
+        <li>
+          selling:
+          <ul>
+            <li>
+              description: Searches by status (whether the item is being sold
+              (true) or requested (false)).
+            </li>
+            <li>value type: boolean</li>
+            <li>example: <code>GET api/adverts?selling=true</code></li>
+          </ul>
+        </li>
+        <li>
+          price:
+          <ul>
+            <li>
+              description: Searches by exact price or price range. Possible
+              options: between value and value (e.g 10-20), greater than value
+              (e.g 10-), lower than value (e.g -20) or exact value (e.g 30).
+            </li>
+            <li>value type: string</li>
+            <li>example: <code>GET api/adverts?price=23-100</code></li>
+          </ul>
+        </li>
+        <li>
+          item:
+          <ul>
+            <li>
+              description: Searches by object name. It will match strings that
+              start with the query text.
+            </li>
+            <li>value type: string</li>
+            <li>example: <code>GET api/adverts?item=bike</code></li>
+          </ul>
+        </li>
+        <li>
+          start:
+          <ul>
+            <li>
+              description: Number of items that will be skipped. Useful for
+              pagination.
+            </li>
+            <li>value type: number</li>
+            <li>example: <code>GET api/adverts?start=5</code></li>
+          </ul>
+        </li>
+        <li>
+          limit:
+          <ul>
+            <li>
+              description: Number of items that will be returned. Useful for
+              pagination.
+            </li>
+            <li>value type: number</li>
+            <li>example: <code>GET api/adverts?limit=10</code></li>
+          </ul>
+        </li>
+        <li>
+          sort:
+          <ul>
+            <li>
+              description: Defines sorting order (by price, alphabetical item
+              name order or status).
+            </li>
+            <li>value type: string</li>
+            <li>example: <code>GET api/adverts?sort=price</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p>
+        You are also able to use multiple parameters at once by concatenating
+        them with &quot;&amp;&quot;. Example:<code
+          >/api/adverts?tag=work&amp;price=30-&amp;short=price</code
+        >
+      </p>
+    </details>
+    <h3 id="expected-errors">Expected errors</h3>
+    <ul>
+      <li>Parameter has an invalid type. Example: <code>price=low</code></li>
+      <li>Parameter does not exist.</li>
+    </ul>
+    <h2 id="update-an-existing-advert">Update an existing advert</h2>
+    <h3 id="request">Request</h3>
+    <p>
+      <code>PUT /api/:id</code> Properties must be set in the body of the
+      request.
+    </p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 200 OK
+
+&quot;result&quot;: {
+    &quot;_id&quot;: &quot;63b73c0be7c119f173b11bb5&quot;,
+    &quot;item&quot;: &quot;phone2&quot;,
+    &quot;selling&quot;: false,
+    &quot;price&quot;: 220.13,
+    &quot;photo&quot;: &quot;bike.jpg&quot;,
+    &quot;tags&quot;: [
+        &quot;work&quot;,
+        &quot;motor&quot;
+    ]
+}
+</code></pre>
+    <h3 id="example-input">Example input</h3>
+    <pre><code>{
+    &quot;price&quot;: 34.5,
+    &quot;tags&quot;: [
+      &quot;lifestyle&quot;,
+      &quot;fun&quot;
+    ]
+}
+</code></pre>
+    <h3 id="expected-errors">Expected errors</h3>
+    <ul>
+      <li>The photo filename must be unique across all items.</li>
+    </ul>
+    <h2 id="create-a-new-advert">Create a new advert</h2>
+    <h3 id="request">Request</h3>
+    <p>
+      <code>POST /api/advert</code> Properties must be set within the body of
+      the request. You can check a list of all the properties in the GET request
+      above.
+    </p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 201 Created
+
+&quot;result&quot;: {
+    &quot;_id&quot;: &quot;63b73c0be7c119f173b11bb5&quot;,
+    &quot;item&quot;: &quot;phone2&quot;,
+    &quot;selling&quot;: false,
+    &quot;price&quot;: 220.13,
+    &quot;photo&quot;: &quot;bike.jpg&quot;,
+    &quot;tags&quot;: [
+        &quot;work&quot;,
+        &quot;motor&quot;
+    ]
+}
+</code></pre>
+    <h3 id="example-input">Example input</h3>
+    <pre><code>{
+    &quot;item&quot;: &quot;phone2&quot;,
+    &quot;selling&quot;: false,
+    &quot;price&quot;: 220.13,
+    &quot;photo&quot;: &quot;bike.jpg&quot;,
+    &quot;tags&quot;: [
+        &quot;work&quot;,
+        &quot;motor&quot;
+    ]
+}
+</code></pre>
+    <h3 id="expected-errors">Expected errors</h3>
+    <ul>
+      <li>
+        All properties are required, so the request will output an error if any
+        property is missing.
+      </li>
+      <li>The photo filename must be unique across all items.</li>
+    </ul>
+    <h2 id="delete-an-advert">Delete an advert</h2>
+    <h3 id="request">Request</h3>
+    <p><code>DELETE /api/:id</code></p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 200 OK
+
+{status: &quot;Advert deleted successfully&quot;}
+</code></pre>
+    <h3 id="expected-errors">Expected errors</h3>
+    <ul>
+      <li>Advert with provided id does not exist.</li>
+    </ul>
+    <h2 id="get-a-specific-image">Get a specific image</h2>
+    <h3 id="request">Request</h3>
+    <p><code>GET /images/</code></p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 200 OK
+
+&lt;image file&gt;
+</code></pre>
+    <h2 id="upload-an-image">Upload an image</h2>
+    <h3 id="request">Request</h3>
+    <p>
+      <code>POST /images/upload</code> Properties must be set within the body of
+      the request.
+    </p>
+    <h3 id="response">Response</h3>
+    <pre><code>HTTP/1.1 201 Created
+
+{ &quot;status&quot;: &quot;Image successfully uploaded&quot;}
+</code></pre>
+    <h3 id="body-format">Body format</h3>
+    <ul>
+      <li>url: required</li>
+      <li>
+        fileName: not required. If no filename is given, the API will get the
+        filename from the url.
+      </li>
+    </ul>
+    <h3 id="expected-errors">Expected errors</h3>
+    <ul>
+      <li>Custom filename must have the file extension.</li>
+    </ul>
+    <h1 id="built-with">Built with</h1>
+    <ul>
+      <li><a href="https://nodejs.org/">Node.js</a> - JavaScript runtime</li>
+      <li>
+        <a href="https://expressjs.com/">Express</a> - web framework for Node.js
+      </li>
+      <li>
+        <a href="https://mongoosejs.com/">Mongoose</a> - elegant mongodb object
+        modeling for node.js
+      </li>
+      <li>
+        <a href="https://nodemon.io/">Nodemon</a> - restart server application
+        on file changes
+      </li>
+      <li>
+        <a href="https://axios-http.com/">Axios</a> - promise based HTTP client
+        for the browser and node.js
+      </li>
+    </ul>
+    <h1 id="author">Author</h1>
+    <ul>
+      <li>Andrea Expósito Santana (BambooholicPanda)</li>
+    </ul>
+  </body>
+</html>
