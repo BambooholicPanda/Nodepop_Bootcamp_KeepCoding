@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Nodepop API",
+    "description": "This API, named Nodepop, is the final project for the backend with Node.js course at my program in bootcamp by KeepCoding and Glovo. We have been requested to create an API using Express and mongodb that allows the creation, edition, deletion and filtering of pieces of advertisements that follow a specific information schema (item name, photo, price, tags, and whether the item is available for purchase or for selling). It also allows to store the information in a mongodb database. If you like it, feel free to fork it and give it a try.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/adverts": {
+      "get": {
+        "summary": "Get advert list",
+        "description": "Searches and returns a list of advertisements based on specified parameters.",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "required": false,
+            "description": "Searches by tag. You can get a list of all available tags by using `GET api/tags`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "selling",
+            "in": "query",
+            "required": false,
+            "description": "Searches by status (whether the item is being sold (true) or requested (false)).",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": false,
+            "description": "Searches by exact price or price range. Possible options: between value and value (e.g 10-20), greater than value (e.g 10-), lower than value (e.g -20) or exact value (e.g 30).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "item",
+            "in": "query",
+            "required": false,
+            "description": "Searches by object name. It will match strings that start with the query text.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "description": "Number of items that will be skipped. Useful for pagination.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items that will be returned. Useful for pagination.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "Defines sorting order (by price, alphabetical item name order or status).",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of advertisements that match the specified parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Advert"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
